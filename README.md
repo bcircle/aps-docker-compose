@@ -40,7 +40,7 @@ execution.setVariable("processId", processId);
     "CC": [],
     "Subject": "Test",
     "Body": "Test",
-    "ProcessInstanceId": "273532",
+    "ProcessInstanceId": "${processId}",
     "Special": null,
     "Files": ["NoAttachment"]
 }
