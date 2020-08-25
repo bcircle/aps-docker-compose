@@ -1,0 +1,42 @@
+version: "3.1"
+services:
+  process:
+    image: reg.bcecm.com/pttor/process-services:1.11.1
+    environment:
+      ACTIVITI_DATASOURCE_USERNAME: alfresco
+      ACTIVITI_DATASOURCE_PASSWORD: alfresco
+      ACTIVITI_DATASOURCE_DRIVER: org.postgresql.Driver
+      ACTIVITI_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      ACTIVITI_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/activiti?characterEncoding=UTF-8"
+      ACTIVITI_CSRF_DISABLED: "true"
+      ACTIVITI_CORS_ENABLED: "true"
+      # ACTIVITI_ES_SERVER_TYPE: client
+      # ACTIVITI_ES_DISCOVERY_HOSTS: elasticsearch:9300
+      # ACTIVITI_ES_CLUSTER_NAME: elasticsearch
+      ACTIVITI_ES_SERVER_TYPE: "rest"
+      ACTIVITI_ES_REST_CLIENT_ADDRESS: elasticsearch
+    volumes:
+      - ./aps-extensions-jar-1.5.0.jar:/usr/local/tomcat/webapps/activiti-app/WEB-INF/lib/aps-extensions-jar-1.5.0.jar
+      - ./psdata:/usr/local/data/
+    ports:
+      - 8088:8080
+    links:
+      - elasticsearch:elasticsearch
+      - postgres:postgres
+    depends_on:
+      - elasticsearch
+      - postgres
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    environment:
+      - discovery.type=single-node
+
+  postgres:
+    image: postgres:9.6.2
+    environment:
+      POSTGRES_DB: activiti
+      POSTGRES_USER: alfresco
+      POSTGRES_PASSWORD: alfresco
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
