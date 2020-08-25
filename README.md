@@ -5,11 +5,17 @@
 - [Docker](https://docs.docker.com/engine/install/) 
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Run
+## Start
 
 ```
 docker-compose up
 ```
+
+## Run
+
+- http://localhost:8088/activiti-app/
+- User admin@app.activiti.com
+- Pass admin
 
 ## Document
 
